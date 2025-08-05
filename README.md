@@ -64,14 +64,12 @@ Bu proje, kullanıcıların giriş/kayıt olduktan sonra yapay zekâ destekli bi
 ### Backend (Spring Boot)
 
 ```bash
-cd backend
+cd chat
 ./mvnw spring-boot:run
 
 ### Frontend (React)
 bash
-Kopyala
-Düzenle
-cd frontend
+cd chat-frontend
 npm install
 npm run dev
 
