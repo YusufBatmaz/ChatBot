@@ -24,7 +24,7 @@ public class ChatService {
 
     private final ChatHistoryRepository chatHistoryRepository;
 
-    private static final String OPENAI_API_KEY = "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";
+    private static final String OPENAI_API_KEY = "Kendi Apı Keyiniz //Your Apı Key";
 
     private final WebClient webClient = WebClient.builder()
             .baseUrl("https://openrouter.ai/api/v1")
