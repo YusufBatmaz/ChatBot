@@ -1,59 +1,90 @@
 package com.yusufbatmaz.chatbot.controller;
 
+import java.util.UUID;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.yusufbatmaz.chatbot.exception.NotFoundException;
 import com.yusufbatmaz.chatbot.model.ChatMessage;
 import com.yusufbatmaz.chatbot.model.User;
 import com.yusufbatmaz.chatbot.service.ChatService;
 import com.yusufbatmaz.chatbot.service.UserService;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
+/**
+ * Chatbot ile ilgili HTTP isteklerini karşılayan controller sınıfı.
+ * Frontend'den gelen chat isteklerini alır, ChatService ile iletişim kurar ve cevap döner.
+ */
 @RestController
 @RequestMapping("/api/chat")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:3001", "http://127.0.0.1:3000", "http://127.0.0.1:3001", "http://localhost:5174"})
+@CrossOrigin(origins = {
+        "http://localhost:3000", "http://localhost:3001",
+        "http://127.0.0.1:3000", "http://127.0.0.1:3001",
+        "http://localhost:5174"
+})
 public class ChatController {
 
     private final ChatService chatService;
     private final UserService userService;
 
+    /**
+     * Kullanıcıdan gelen chat mesajını alır, ilgili kullanıcıyı bulur ve ChatService'e iletir.
+     * ChatService'den dönen cevabı frontend'e iletir.
+     *
+     * @param chatMessage Kullanıcının gönderdiği mesaj
+     * @param userId Mesajı gönderen kullanıcının UUID'si (zorunlu)
+     * @return Botun cevabı
+     */
     @PostMapping
     public ResponseEntity<String> chat(@RequestBody ChatMessage chatMessage, @RequestParam(required = false) String userId) {
         System.out.println("API çağrısı alındı: " + chatMessage.getMessage());
-        
+
         User user;
         if (userId != null && !userId.trim().isEmpty()) {
             try {
+                // String UUID'yi UUID objesine çeviriyoruz
                 UUID userUuid = UUID.fromString(userId);
+                
+                // Kullanıcıyı veritabanından bul
                 user = userService.getUserById(userUuid)
-                        .orElseThrow(() -> new RuntimeException("Kullanıcı bulunamadı: " + userId));
+                        .orElseThrow(() -> new NotFoundException("Kullanıcı bulunamadı: " + userId));
+                        
             } catch (IllegalArgumentException e) {
+                // UUID format hatası - geçersiz UUID string'i
                 System.err.println("Geçersiz userId: " + userId);
-                throw new RuntimeException("Geçersiz kullanıcı ID'si");
+                throw new NotFoundException("Geçersiz kullanıcı ID'si");
+                
+            } catch (NotFoundException e) {
+                // Kullanıcı bulunamadı hatası
+                throw e;
             }
         } else {
-            throw new RuntimeException("Kullanıcı ID'si gerekli");
+            // userId parametresi eksik
+            throw new NotFoundException("Kullanıcı ID'si gerekli");
         }
 
+        // ChatService ile bot cevabını al (ChatService'de exception handling var)
         String botResponse = chatService.ask(chatMessage, user);
         System.out.println("Bot cevabı: " + botResponse);
         return ResponseEntity.ok(botResponse);
     }
 
+    /**
+     * Backend'in çalışıp çalışmadığını test etmek için basit bir endpoint.
+     * @return "Backend is running!" mesajı
+     */
     @GetMapping("/test")
     public ResponseEntity<String> test() {
         return ResponseEntity.ok("Backend is running!");
     }
 
-    @PostMapping("/test2")
-    public ResponseEntity<String> testChat() {
-        ChatMessage msg = new ChatMessage();
-        msg.setMessage("Merhaba");
-        User user = new User();
-        user.setId(UUID.randomUUID());
-        String response = chatService.ask(msg, user);
-        return ResponseEntity.ok(response);
-    }
 }
