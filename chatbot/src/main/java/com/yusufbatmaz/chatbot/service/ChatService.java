@@ -37,12 +37,6 @@ public class ChatService {
     private static final Logger logger = LoggerFactory.getLogger(ChatService.class);
     private final ChatHistoryRepository chatHistoryRepository;
 
-<<<<<<< HEAD
-=======
-    // OpenRouter API anahtarı (güvenlik için kodda açık tutmak önerilmez)
-    private static final String OPENAI_API_KEY = "Kendi Api Keyinizi Giriniz / You can enter your own Api Key";
-
->>>>>>> 44a3d484d2a3b5cbb27f1865056cac2e6ac8b927
     // OpenRouter API'ye istek atmak için WebClient nesnesi
     private final WebClient webClient;
 
