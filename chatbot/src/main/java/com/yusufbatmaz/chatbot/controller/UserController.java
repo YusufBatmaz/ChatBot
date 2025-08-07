@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.yusufbatmaz.chatbot.exception.NotFoundException;
+import com.yusufbatmaz.chatbot.model.LoginRequest;
 import com.yusufbatmaz.chatbot.model.User;
 import com.yusufbatmaz.chatbot.service.UserService;
 
@@ -89,16 +90,16 @@ public class UserController {
      * @return Başarılıysa kullanıcı, değilse 401 (Unauthorized)
      */
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@Valid @RequestBody User user) {
+    public ResponseEntity<?> loginUser(@Valid @RequestBody LoginRequest loginRequest) {
         // @Valid annotation'ı ile Bean Validation çalışır
         
         // Email ve şifre null kontrolü (ekstra güvenlik)
-        if (user.getEmail() == null || user.getPassword() == null) {
+        if (loginRequest.getEmail() == null || loginRequest.getPassword() == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email ve şifre gerekli.");
         }
         
         // Kullanıcı doğrulama (UserService'de exception handling var)
-        Optional<User> authenticatedUser = userService.authenticateUser(user.getEmail(), user.getPassword());
+        Optional<User> authenticatedUser = userService.authenticateUser(loginRequest.getEmail(), loginRequest.getPassword());
         
         if (authenticatedUser.isPresent()) {
             // Giriş başarılı

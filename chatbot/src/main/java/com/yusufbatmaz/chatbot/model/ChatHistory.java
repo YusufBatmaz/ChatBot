@@ -29,7 +29,7 @@ public class ChatHistory {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String userMessage;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, length = 2000)
     private String botResponse;
 
     @Column(nullable = false)

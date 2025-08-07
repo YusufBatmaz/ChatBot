@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import com.yusufbatmaz.chatbot.config.ApiConfig;
 import com.yusufbatmaz.chatbot.exception.DatabaseException;
 import com.yusufbatmaz.chatbot.exception.ValidationException;
 import com.yusufbatmaz.chatbot.model.ChatHistory;
@@ -23,7 +24,6 @@ import com.yusufbatmaz.chatbot.model.ChatMessage;
 import com.yusufbatmaz.chatbot.model.User;
 import com.yusufbatmaz.chatbot.repository.ChatHistoryRepository;
 
-import lombok.RequiredArgsConstructor;
 import reactor.netty.http.client.HttpClient;
 
 /**
@@ -31,29 +31,31 @@ import reactor.netty.http.client.HttpClient;
  * OpenRouter API ile iletişim kurar, cevapları alır ve veritabanına kaydeder.
  */
 @Service
-@RequiredArgsConstructor
 public class ChatService {
 
     // Logging için SLF4J logger kullanıyoruz
     private static final Logger logger = LoggerFactory.getLogger(ChatService.class);
     private final ChatHistoryRepository chatHistoryRepository;
 
-<<<<<<< HEAD
-    // OpenRouter API anahtarı (güvenlik için kodda açık tutmak önerilmez)
-    private static final String OPENAI_API_KEY = "Kendi Api Keyinizi Giriniz / You can enter your own Api Key";
-=======
-    private static final String OPENAI_API_KEY = "Kendi Apı Keyiniz //Your Apı Key";
->>>>>>> 9cde601200a8e68b59f74f7afce834b323ca19ef
-
     // OpenRouter API'ye istek atmak için WebClient nesnesi
-    private final WebClient webClient = WebClient.builder()
-            .baseUrl("https://openrouter.ai/api/v1")
-            .defaultHeader("Authorization", "Bearer " + OPENAI_API_KEY)
-            .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-            .clientConnector(new ReactorClientHttpConnector(
-                    HttpClient.create()
-                            .responseTimeout(Duration.ofSeconds(30))))
-            .build();
+    private final WebClient webClient;
+
+    /**
+     * Constructor - WebClient'ı configuration ile oluşturuyoruz
+     */
+    public ChatService(ChatHistoryRepository chatHistoryRepository, ApiConfig apiConfig) {
+        this.chatHistoryRepository = chatHistoryRepository;
+        
+        // WebClient'ı configuration'dan gelen değerlerle oluşturuyoruz
+        this.webClient = WebClient.builder()
+                .baseUrl(apiConfig.getUrl())
+                .defaultHeader("Authorization", "Bearer " + apiConfig.getKey())
+                .defaultHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+                .clientConnector(new ReactorClientHttpConnector(
+                        HttpClient.create()
+                                .responseTimeout(Duration.ofSeconds(apiConfig.getTimeout()))))
+                .build();
+    }
 
     /**
      * Kullanıcıdan gelen mesajı OpenRouter API'ye gönderir, cevabı alır,
@@ -79,6 +81,9 @@ public class ChatService {
                                     "role", "user",
                                     "content", userMessage)));
 
+            logger.info("OpenRouter API'ye istek gönderiliyor...");
+            logger.debug("Request body: {}", requestBody);
+            
             Map<String, Object> response;
             try {
                 // API'ye POST isteği gönder ve cevabı al
@@ -89,14 +94,16 @@ public class ChatService {
                         .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                         .block();
                         
+                logger.info("OpenRouter API'den yanıt alındı");
+                        
             } catch (ResourceAccessException e) {
                 // Dış API'ye erişim hatası (network, timeout, vb.)
-                logger.error("OpenRouter API'ye erişim hatası", e);
+                logger.error("OpenRouter API'ye erişim hatası: {}", e.getMessage(), e);
                 throw new ResourceAccessException("AI servisi şu anda kullanılamıyor. Lütfen daha sonra tekrar deneyin.");
                 
             } catch (Exception e) {
                 // Diğer API çağrısı hataları
-                logger.error("API çağrısı sırasında hata oluştu", e);
+                logger.error("API çağrısı sırasında hata oluştu: {}", e.getMessage(), e);
                 return "API çağrısı sırasında hata oluştu. Lütfen daha sonra tekrar deneyin.";
             }
 
@@ -124,6 +131,12 @@ public class ChatService {
             }
 
             String botResponse = (String) messageResponse.get("content");
+
+            // Bot response'unu 2000 karakterle sınırla
+            if (botResponse.length() > 2000) {
+                botResponse = botResponse.substring(0, 1997) + "...";
+                logger.info("Bot response 2000 karakterle sınırlandı");
+            }
 
             // Soru kategorisini belirle
             String questionCategory = determineQuestionCategory(userMessage);
@@ -159,6 +172,11 @@ public class ChatService {
         // Mesaj içeriği null/boş kontrolü
         if (chatMessage.getMessage() == null || chatMessage.getMessage().trim().isEmpty()) {
             throw new ValidationException("Mesaj içeriği boş olamaz");
+        }
+        
+        // Mesaj uzunluk kontrolü (API limitleri için)
+        if (chatMessage.getMessage().length() > 4000) {
+            throw new ValidationException("Mesaj çok uzun. Lütfen daha kısa bir mesaj yazın.");
         }
         
         // Kullanıcı null kontrolü

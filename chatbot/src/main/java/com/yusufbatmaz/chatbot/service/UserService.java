@@ -25,6 +25,7 @@ public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UserRepository userRepository;
+    private final PasswordService passwordService;
 
     /**
      * Yeni kullanıcı oluşturur ve veritabanına kaydeder.
@@ -35,6 +36,11 @@ public class UserService {
         try {
             validateUserForRegistration(user);
             user.setId(null); // Yeni kullanıcıda id null olmalı
+            
+            // Şifreyi BCrypt ile hashle
+            String hashedPassword = passwordService.hashPassword(user.getPassword());
+            user.setPassword(hashedPassword);
+            
             User createdUser = userRepository.save(user);
             logger.info("Yeni kullanıcı oluşturuldu: {}", createdUser.getEmail());
             return createdUser;
@@ -98,13 +104,23 @@ public class UserService {
         }
 
         try {
+            logger.info("Giriş denemesi - Email: {}", email);
             Optional<User> user = userRepository.findByEmail(email);
-            if (user.isPresent() && user.get().getPassword() != null && 
-                user.get().getPassword().equals(password)) {
-                logger.info("Kullanıcı başarıyla giriş yaptı: {}", email);
-                return user;
+            
+            if (user.isPresent()) {
+                User foundUser = user.get();
+                logger.info("Kullanıcı bulundu - ID: {}, Email: {}", foundUser.getId(), foundUser.getEmail());
+                
+                // BCrypt ile şifre karşılaştırması
+                if (foundUser.getPassword() != null && passwordService.matches(password, foundUser.getPassword())) {
+                    logger.info("Kullanıcı başarıyla giriş yaptı: {}", email);
+                    return user;
+                } else {
+                    logger.warn("Şifre eşleşmedi - Email: {}", email);
+                    return Optional.empty();
+                }
             } else {
-                logger.warn("Başarısız giriş denemesi: {}", email);
+                logger.warn("Kullanıcı bulunamadı - Email: {}", email);
                 return Optional.empty();
             }
         } catch (Exception e) {
