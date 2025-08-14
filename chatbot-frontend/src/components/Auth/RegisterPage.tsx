@@ -1,4 +1,6 @@
+// Bu dosya, chatbot projesinin bir parçasıdır.
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import axios from 'axios';
 import './AuthPages.css';
 import type { User } from '../../types';
@@ -9,6 +11,7 @@ interface RegisterPageProps {
 }
 
 export default function RegisterPage({ onLogin, onBack }: RegisterPageProps) {
+  const { t } = useTranslation();
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -28,17 +31,17 @@ export default function RegisterPage({ onLogin, onBack }: RegisterPageProps) {
     setError('');
     
     if (!form.firstName || !form.lastName || !form.email || !form.password || !form.confirmPassword) {
-      setError('Lütfen tüm alanları doldurun.');
+      setError(t('auth.error.requiredFields'));
       return;
     }
 
     if (form.password !== form.confirmPassword) {
-      setError('Şifreler eşleşmiyor.');
+      setError(t('auth.error.passwordMismatch'));
       return;
     }
 
     if (form.password.length < 6) {
-      setError('Şifre en az 6 karakter olmalıdır.');
+      setError(t('auth.error.passwordTooShort'));
       return;
     }
 
@@ -53,9 +56,9 @@ export default function RegisterPage({ onLogin, onBack }: RegisterPageProps) {
       onLogin(response.data);
     } catch (err: any) {
       if (err.response?.status === 409) {
-        setError('Bu email ile zaten kayıtlı bir kullanıcı var.');
+        setError(t('auth.error.emailExists'));
       } else {
-        setError('Kayıt olurken bir hata oluştu.');
+        setError(t('auth.error.registerFailed'));
       }
     } finally {
       setLoading(false);
@@ -67,36 +70,36 @@ export default function RegisterPage({ onLogin, onBack }: RegisterPageProps) {
       <div className="auth-container">
         <div className="auth-header">
           <button onClick={onBack} className="back-btn">
-            ← Geri
+            ← {t('common.back')}
           </button>
-          <h2>Kayıt Ol</h2>
+          <h2>{t('auth.registerTitle')}</h2>
         </div>
         
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-row">
             <div className="form-group">
-              <label htmlFor="firstName">Ad</label>
+              <label htmlFor="firstName">{t('auth.firstName')}</label>
               <input
                 type="text"
                 id="firstName"
                 name="firstName"
                 value={form.firstName}
                 onChange={handleChange}
-                placeholder="Adınız"
+                placeholder={t('auth.firstName')}
                 disabled={loading}
                 required
               />
             </div>
             
             <div className="form-group">
-              <label htmlFor="lastName">Soyad</label>
+              <label htmlFor="lastName">{t('auth.lastName')}</label>
               <input
                 type="text"
                 id="lastName"
                 name="lastName"
                 value={form.lastName}
                 onChange={handleChange}
-                placeholder="Soyadınız"
+                placeholder={t('auth.lastName')}
                 disabled={loading}
                 required
               />
@@ -104,49 +107,49 @@ export default function RegisterPage({ onLogin, onBack }: RegisterPageProps) {
           </div>
           
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t('auth.email')}</label>
             <input
               type="email"
               id="email"
               name="email"
               value={form.email}
               onChange={handleChange}
-              placeholder="Email adresinizi girin"
+              placeholder={t('auth.email')}
               disabled={loading}
               required
             />
           </div>
           
           <div className="form-group">
-            <label htmlFor="password">Şifre</label>
+            <label htmlFor="password">{t('auth.password')}</label>
             <input
               type="password"
               id="password"
               name="password"
               value={form.password}
               onChange={handleChange}
-              placeholder="Şifrenizi girin"
+              placeholder={t('auth.password')}
               disabled={loading}
               required
             />
           </div>
           
           <div className="form-group">
-            <label htmlFor="confirmPassword">Şifre Tekrarı</label>
+            <label htmlFor="confirmPassword">{t('auth.confirmPassword')}</label>
             <input
               type="password"
               id="confirmPassword"
               name="confirmPassword"
               value={form.confirmPassword}
               onChange={handleChange}
-              placeholder="Şifrenizi tekrar girin"
+              placeholder={t('auth.confirmPassword')}
               disabled={loading}
               required
             />
           </div>
           
           <button type="submit" className="submit-btn" disabled={loading}>
-            {loading ? 'Kayıt olunuyor...' : 'Kayıt Ol'}
+            {loading ? t('common.loading') : t('auth.registerButton')}
           </button>
           
           {error && <div className="error-message">{error}</div>}

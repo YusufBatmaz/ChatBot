@@ -328,6 +328,162 @@ body {
   }
 }
 
+/* Explicit dark theme via toggle */
+[data-theme="dark"] body {
+  background: linear-gradient(135deg, #111827 0%, #1f2937 100%);
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .home-page {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+}
+
+[data-theme="dark"] .hero-section {
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .chat-form,
+[data-theme="dark"] .chat-history {
+  background: #111827;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .chat-input {
+  background: #1f2937;
+  color: #f9fafb;
+  border-color: #374151;
+}
+
+[data-theme="dark"] .chat-input::placeholder {
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .bot-message .message-content {
+  background: #374151;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .empty-state {
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .typing-indicator {
+  background: #374151;
+}
+
+/* Auth pages */
+[data-theme="dark"] .auth-container {
+  background: #111827;
+  border-color: #1f2937;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .auth-form input {
+  background: #1f2937;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+[data-theme="dark"] .auth-form button {
+  background-color: #2563eb;
+}
+
+[data-theme="dark"] .error-text {
+  color: #f87171;
+}
+
+/* Profile modal */
+[data-theme="dark"] .profile-content {
+  background-color: #111827;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .profile-header {
+  border-bottom-color: #1f2937;
+}
+
+[data-theme="dark"] .profile-subtitle {
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .close-button {
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .close-button:hover {
+  background-color: #1f2937;
+}
+
+[data-theme="dark"] .profile-section label {
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .profile-section input,
+[data-theme="dark"] .profile-section select,
+[data-theme="dark"] .profile-section textarea {
+  background-color: #1f2937;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+[data-theme="dark"] .traits-tags .trait-tag {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .advanced {
+  border-top-color: #1f2937;
+}
+
+[data-theme="dark"] .advanced-content {
+  background-color: #0f172a;
+  border-color: #1f2937;
+}
+
+[data-theme="dark"] .toggle-label {
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .toggle-switch {
+  background-color: #374151;
+  border-color: #6b7280;
+}
+
+[data-theme="dark"] input[type="checkbox"]:checked + .toggle-switch {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}
+
+[data-theme="dark"] .refresh-button {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .refresh-button:hover {
+  background-color: #374151;
+  border-color: #4b5563;
+}
+
+[data-theme="dark"] .profile-actions {
+  border-top-color: #1f2937;
+}
+
+[data-theme="dark"] .cancel-button {
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+[data-theme="dark"] .cancel-button:hover {
+  background-color: #1f2937;
+}
+
+[data-theme="dark"] .loading {
+  color: #9ca3af;
+}
+
 @keyframes typing {
   0%, 80%, 100% {
     transform: scale(0.8);

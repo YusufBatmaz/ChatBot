@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "Willkommen bei ChatBot",
+    "startChat": "Beginnen Sie mit dem KI-gestützten Chatbot zu chatten",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "logout": "Abmelden",
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "back": "Zurück",
+    "loading": "Lädt...",
+    "error": "Fehler",
+    "success": "Erfolg"
+  },
+  "auth": {
+    "loginTitle": "Bei Ihrem Konto anmelden",
+    "registerTitle": "Neues Konto erstellen",
+    "email": "E-Mail",
+    "password": "Passwort",
+    "firstName": "Vorname",
+    "lastName": "Nachname",
+    "confirmPassword": "Passwort bestätigen",
+    "loginButton": "Anmelden",
+    "registerButton": "Registrieren",
+    "noAccount": "Haben Sie noch kein Konto?",
+    "hasAccount": "Haben Sie bereits ein Konto?",
+    "signUp": "Registrieren",
+    "signIn": "Anmelden",
+    "error": {
+      "requiredFields": "Bitte füllen Sie alle Felder aus.",
+      "invalidCredentials": "E-Mail oder Passwort ist falsch.",
+      "loginFailed": "Beim Anmelden ist ein Fehler aufgetreten.",
+      "passwordMismatch": "Passwörter stimmen nicht überein.",
+      "passwordTooShort": "Das Passwort muss mindestens 6 Zeichen lang sein.",
+      "emailExists": "Ein Benutzer mit dieser E-Mail existiert bereits.",
+      "registerFailed": "Beim Registrieren ist ein Fehler aufgetreten."
+    }
+  },
+  "chat": {
+    "sendMessage": "Nachricht senden...",
+    "send": "Senden",
+    "thinking": "KI denkt nach...",
+    "newChat": "Neuer Chat",
+    "clearHistory": "Verlauf löschen"
+  },
+  "profile": {
+    "title": "ChatBot anpassen",
+    "subtitle": "Stellen Sie sich vor, um bessere, personalisierte Antworten zu erhalten",
+    "nickname": "Wie soll ChatBot Sie nennen?",
+    "nicknamePlaceholder": "Spitzname",
+    "occupation": "Was machen Sie beruflich?",
+    "occupationPlaceholder": "z.B. Ingenieurstudent an der Universität Waterloo",
+    "personality": "Welche Persönlichkeit soll ChatBot haben?",
+    "personalityDefault": "Standard",
+    "personalityOptions": {
+      "default": "Standard",
+      "friendly": "Freundlich",
+      "professional": "Professionell",
+      "casual": "Lässig",
+      "formal": "Formell"
+    },
+    "traits": "Welche Eigenschaften soll ChatBot haben?",
+    "traitsPlaceholder": "Eigenschaften beschreiben oder auswählen",
+    "traitOptions": {
+      "chatty": "Gesprächig",
+      "witty": "Witzig",
+      "straightShooting": "Direkt",
+      "encouraging": "Ermutigend",
+      "genZ": "Gen Z",
+      "traditional": "Traditionell",
+      "forwardThinking": "Zukunftsorientiert"
+    },
+    "additionalInfo": "Was sollte ChatBot sonst noch über Sie wissen?",
+    "additionalInfoPlaceholder": "Interessen, Werte oder Präferenzen, die im Hinterkopf behalten werden sollten",
+    "advanced": "Erweitert",
+    "enableNewChats": "Für neue Chats aktivieren"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "languageOptions": {
+      "en": "Englisch",
+      "tr": "Türkisch",
+      "de": "Deutsch"
+    },
+    "theme": "Thema",
+    "themeOptions": {
+      "light": "Hell",
+      "dark": "Dunkel",
+      "auto": "Automatisch"
+    }
+  },
+  "home": {
+    "heroTitle": "Willkommen bei ChatBot",
+    "heroSubtitle": "Beginnen Sie mit dem KI-gestützten Chatbot zu chatten",
+    "loginButton": "Anmelden",
+    "registerButton": "Registrieren"
+  }
+}

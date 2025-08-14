@@ -162,4 +162,52 @@
   .form-row {
     grid-template-columns: 1fr;
   }
-} 
+}
+
+/* Dark theme overrides */
+[data-theme="dark"] .auth-page {
+  background: linear-gradient(135deg, #0f172a 0%, #111827 100%);
+}
+
+[data-theme="dark"] .auth-container {
+  background: #111827;
+  color: #e5e7eb;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+[data-theme="dark"] .auth-header h2 {
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .back-btn {
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .back-btn:hover {
+  background: #1f2937;
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .form-group label {
+  color: #e5e7eb;
+}
+
+[data-theme="dark"] .form-group input {
+  background: #1f2937;
+  color: #e5e7eb;
+  border-color: #374151;
+}
+
+[data-theme="dark"] .form-group input:focus {
+  background: #111827;
+}
+
+[data-theme="dark"] .submit-btn {
+  background: #2563eb;
+}
+
+[data-theme="dark"] .error-message {
+  background: #2b1d1d;
+  color: #fca5a5;
+  border-color: #7f1d1d;
+}

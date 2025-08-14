@@ -50,6 +50,21 @@
   gap: 1.5rem;
 }
 
+.theme-toggle {
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
 .auth-buttons {
   display: flex;
   gap: 1rem;
@@ -113,6 +128,18 @@
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Dark mode: increase contrast of welcome text without adding boxes */
+[data-theme="dark"] .welcome-text {
+  color: #ffffff;
+  font-weight: 600;
+  /* multi-layer shadow to simulate subtle outline for readability */
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.9),
+    0 0 4px rgba(0, 0, 0, 0.6),
+    0 0 1px rgba(0, 0, 0, 1);
+  -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.6);
+}
+
 .logout-btn {
   padding: 0.5rem 1.25rem;
   background: linear-gradient(135deg, #ff4757 0%, #c44569 100%);
@@ -173,3 +200,23 @@
     font-size: 0.85rem;
   }
 } 
+
+.profile-btn {
+  padding: 0.5rem 1.25rem;
+  background: linear-gradient(135deg, #47ff5f 0%, #32b343  100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.profile-btn:hover {
+  background: linear-gradient(135deg, #12aa26 0%, #0b8c1c 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.profile-btn:active {
+  transform: translateY(0);
+}

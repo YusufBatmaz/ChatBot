@@ -1,0 +1,359 @@
+.profile-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.profile-content {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  color: #111827;
+  position: relative;
+}
+
+.profile-header {
+  padding: 24px 24px 16px 24px;
+  border-bottom: 1px solid #e5e7eb;
+  position: relative;
+}
+
+.profile-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.profile-subtitle {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.close-button {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: #6b7280;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.close-button:hover {
+  background-color: #e5e7eb;
+}
+
+.profile-sections {
+  padding: 16px 24px;
+}
+
+.profile-section {
+  margin-bottom: 24px;
+}
+
+.profile-section label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #374151;
+  font-size: 14px;
+}
+
+.info-icon {
+  margin-left: 8px;
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+.profile-section input,
+.profile-section select,
+.profile-section textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #111827;
+  font-size: 14px;
+  transition: border-color 0.2s;
+}
+
+.profile-section input:focus,
+.profile-section select:focus,
+.profile-section textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+.profile-section textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.traits-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.trait-tag {
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.trait-tag:hover {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+.trait-tag.active {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+  color: white;
+}
+
+.refresh-button {
+  background-color: #f3f4f6;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.refresh-button:hover {
+  background-color: #e5e7eb;
+  border-color: #d1d5db;
+}
+
+.advanced {
+  border-top: 1px solid #e5e7eb;
+  padding-top: 16px;
+}
+
+.advanced-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 8px 0;
+}
+
+.arrow {
+  color: #9ca3af;
+  font-size: 12px;
+  transition: transform 0.2s;
+}
+
+.advanced-header:hover .arrow {
+  transform: rotate(180deg);
+}
+
+/* When advanced section is open, persist arrow rotation */
+.advanced.open .advanced-header .arrow {
+  transform: rotate(180deg);
+}
+
+.advanced-content {
+  margin-top: 12px;
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.toggle-label {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  padding: 8px 0;
+  color: #111827;
+  font-weight: 500;
+}
+
+.toggle-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background-color: #d1d5db; /* gray when off */
+  border: 1px solid #9ca3af; /* stronger border for visibility */
+  border-radius: 12px;
+  transition: background-color 0.2s;
+}
+
+.toggle-switch::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background-color: white; /* always white knob */
+  border-radius: 50%;
+  transition: transform 0.2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2); /* stronger shadow for contrast */
+}
+
+/* Force-hide the original checkbox only for the advanced toggle */
+.advanced-content input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.advanced-content input[type="checkbox"]:checked + .toggle-switch {
+  background-color: #3b82f6; /* blue when on */
+  border-color: #3b82f6;
+}
+
+.advanced-content input[type="checkbox"]:checked + .toggle-switch::before {
+  transform: translateX(20px); /* adjust for smaller knob */
+}
+
+/* Trait tags as checkbox labels */
+.trait-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  user-select: none;
+  padding-left: 10px; /* space for checkmark */
+}
+
+.trait-tag input[type="checkbox"] {
+  /* Visually hide the native checkbox but keep it accessible */
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+  width: 0;
+  height: 0;
+}
+
+/* No extra visual checkbox; the pill itself indicates state via .active */
+
+.trait-check {
+  margin-right: 6px;
+  font-weight: 700;
+}
+
+.trait-tag:focus-within {
+  outline: 2px solid #93c5fd; /* subtle focus ring */
+  outline-offset: 2px;
+}
+
+.profile-actions {
+  padding: 16px 24px 24px 24px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.cancel-button,
+.save-button {
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.cancel-button {
+  background-color: transparent;
+  color: #374151;
+  border: 1px solid #d1d5db;
+}
+
+.cancel-button:hover {
+  background-color: #f3f4f6;
+}
+
+.save-button {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.save-button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.save-button:disabled {
+  background-color: #93c5fd;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: #6b7280;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .profile-content {
+    width: 95%;
+    margin: 20px;
+  }
+  
+  .profile-header,
+  .profile-sections,
+  .profile-actions {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  
+  .traits-tags {
+    gap: 6px;
+  }
+  
+  .trait-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+  }
+}

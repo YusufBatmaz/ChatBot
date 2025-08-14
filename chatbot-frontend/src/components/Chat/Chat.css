@@ -17,6 +17,14 @@
     margin-bottom: 1rem;
   }
   
+  /* Chat header title styling */
+  .chat-header h2 {
+    margin: 0;
+    color: #1f2937; /* slate-800 for strong contrast on light bg */
+    font-weight: 700;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+  }
+  
   .logout-button {
     background: #ef4444;
     color: white;
@@ -43,10 +51,10 @@
   }
 
   .messages-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    min-height: 100%;
   }
 
   .user-column, .bot-column {
@@ -78,14 +86,16 @@
   .message {
     margin-bottom: 1rem;
     animation: fadeInUp 0.3s ease-out;
+    display: flex;
+    width: 100%;
   }
   
   .user-message {
-    text-align: left;
+    justify-content: flex-start;
   }
   
   .bot-message {
-    text-align: left;
+    justify-content: flex-end;
   }
   
   .message-sender {
@@ -101,7 +111,7 @@
     display: inline-block;
     padding: 0.75rem 1.25rem;
     border-radius: 12px 12px 12px 4px;
-    max-width: 100%;
+    max-width: 75%;
     word-wrap: break-word;
   }
   
@@ -111,7 +121,7 @@
     display: inline-block;
     padding: 0.75rem 1.25rem;
     border-radius: 12px 12px 12px 4px;
-    max-width: 100%;
+    max-width: 75%;
     word-wrap: break-word;
   }
   
@@ -153,6 +163,17 @@
   .send-button:disabled {
     opacity: 0.6;
     cursor: not-allowed;
+  }
+  
+  /* Dark mode overrides for chat header title */
+  [data-theme="dark"] .chat-header h2 {
+    color: #ffffff;
+    font-weight: 700;
+    text-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.9),
+      0 0 4px rgba(0, 0, 0, 0.6),
+      0 0 1px rgba(0, 0, 0, 1);
+    -webkit-text-stroke: 0.2px rgba(0, 0, 0, 0.5);
   }
   
   /* Loading animation */

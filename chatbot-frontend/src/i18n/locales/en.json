@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "Welcome to ChatBot",
+    "startChat": "Start chatting with AI-powered chatbot",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout",
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "auth": {
+    "loginTitle": "Login to Your Account",
+    "registerTitle": "Create New Account",
+    "email": "Email",
+    "password": "Password",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "confirmPassword": "Confirm Password",
+    "loginButton": "Login",
+    "registerButton": "Register",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "error": {
+      "requiredFields": "Please fill in all fields.",
+      "invalidCredentials": "Email or password is incorrect.",
+      "loginFailed": "An error occurred while logging in.",
+      "passwordMismatch": "Passwords do not match.",
+      "passwordTooShort": "Password must be at least 6 characters.",
+      "emailExists": "A user with this email already exists.",
+      "registerFailed": "An error occurred while registering."
+    }
+  },
+  "chat": {
+    "sendMessage": "Send a message...",
+    "send": "Send",
+    "thinking": "AI is thinking...",
+    "newChat": "New Chat",
+    "clearHistory": "Clear History"
+  },
+  "profile": {
+    "title": "Customize ChatBot",
+    "subtitle": "Introduce yourself to get better, more personalized responses",
+    "nickname": "What should ChatBot call you?",
+    "nicknamePlaceholder": "Nickname",
+    "occupation": "What do you do?",
+    "occupationPlaceholder": "e.g., Engineering student at University of Waterloo",
+    "personality": "What personality should ChatBot have?",
+    "personalityDefault": "Default",
+    "personalityOptions": {
+      "default": "Default",
+      "friendly": "Friendly",
+      "professional": "Professional",
+      "casual": "Casual",
+      "formal": "Formal"
+    },
+    "traits": "What traits should ChatBot have?",
+    "traitsPlaceholder": "Describe or select traits",
+    "traitOptions": {
+      "chatty": "Chatty",
+      "witty": "Witty",
+      "straightShooting": "Straight shooting",
+      "encouraging": "Encouraging",
+      "genZ": "Gen Z",
+      "traditional": "Traditional",
+      "forwardThinking": "Forward thinking"
+    },
+    "additionalInfo": "Anything else ChatBot should know about you?",
+    "additionalInfoPlaceholder": "Interests, values, or preferences to keep in mind",
+    "advanced": "Advanced",
+    "enableNewChats": "Enable for new chats"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageOptions": {
+      "en": "English",
+      "tr": "Turkish",
+      "de": "German"
+    },
+    "theme": "Theme",
+    "themeOptions": {
+      "light": "Light",
+      "dark": "Dark",
+      "auto": "Auto"
+    }
+  },
+  "home": {
+    "heroTitle": "Welcome to ChatBot",
+    "heroSubtitle": "Start chatting with AI-powered chatbot",
+    "loginButton": "Login",
+    "registerButton": "Register"
+  }
+}

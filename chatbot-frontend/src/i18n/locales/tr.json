@@ -1,0 +1,99 @@
+{
+  "common": {
+    "welcome": "ChatBot'a Hoşgeldiniz",
+    "startChat": "Yapay zeka destekli chatbot ile sohbet etmeye başlayın",
+    "login": "Giriş Yap",
+    "register": "Kaydol",
+    "logout": "Çıkış Yap",
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "back": "Geri",
+    "loading": "Yükleniyor...",
+    "error": "Hata",
+    "success": "Başarılı"
+  },
+  "auth": {
+    "loginTitle": "Hesabınıza Giriş Yapın",
+    "registerTitle": "Yeni Hesap Oluşturun",
+    "email": "E-posta",
+    "password": "Şifre",
+    "firstName": "Ad",
+    "lastName": "Soyad",
+    "confirmPassword": "Şifreyi Onayla",
+    "loginButton": "Giriş Yap",
+    "registerButton": "Kaydol",
+    "noAccount": "Hesabınız yok mu?",
+    "hasAccount": "Zaten hesabınız var mı?",
+    "signUp": "Kaydol",
+    "signIn": "Giriş Yap",
+    "error": {
+      "requiredFields": "Lütfen tüm alanları doldurun.",
+      "invalidCredentials": "Email veya şifre yanlış.",
+      "loginFailed": "Giriş yapılırken bir hata oluştu.",
+      "passwordMismatch": "Şifreler eşleşmiyor.",
+      "passwordTooShort": "Şifre en az 6 karakter olmalıdır.",
+      "emailExists": "Bu email ile zaten kayıtlı bir kullanıcı var.",
+      "registerFailed": "Kaydolurken bir hata oluştu."
+    }
+  },
+  "chat": {
+    "sendMessage": "Mesaj gönderin...",
+    "send": "Gönder",
+    "thinking": "AI düşünüyor...",
+    "newChat": "Yeni Sohbet",
+    "clearHistory": "Geçmişi Temizle"
+  },
+  "profile": {
+    "title": "ChatBot'u Özelleştir",
+    "subtitle": "Daha iyi, kişiselleştirilmiş yanıtlar almak için kendinizi tanıtın",
+    "nickname": "ChatBot size ne desin?",
+    "nicknamePlaceholder": "Takma Ad",
+    "occupation": "Ne iş yapıyorsunuz?",
+    "occupationPlaceholder": "örn., Waterloo Üniversitesi'nde mühendislik öğrencisi",
+    "personality": "ChatBot'un nasıl bir kişiliği olsun?",
+    "personalityDefault": "Varsayılan",
+    "personalityOptions": {
+      "default": "Varsayılan",
+      "friendly": "Arkadaşça",
+      "professional": "Profesyonel",
+      "casual": "Günlük",
+      "formal": "Resmi"
+    },
+    "traits": "ChatBot'un hangi özellikleri olsun?",
+    "traitsPlaceholder": "Özellikleri tanımlayın veya seçin",
+    "traitOptions": {
+      "chatty": "Konuşkan",
+      "witty": "Zeki",
+      "straightShooting": "Dürüst",
+      "encouraging": "Cesaretlendirici",
+      "genZ": "Z Kuşağı",
+      "traditional": "Geleneksel",
+      "forwardThinking": "İleri Görüşlü"
+    },
+    "additionalInfo": "ChatBot'un sizin hakkınızda bilmesi gereken başka bir şey var mı?",
+    "additionalInfoPlaceholder": "Akılda tutulacak ilgi alanları, değerler veya tercihler",
+    "advanced": "Gelişmiş",
+    "enableNewChats": "Yeni sohbetler için etkinleştir"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "language": "Dil",
+    "languageOptions": {
+      "en": "İngilizce",
+      "tr": "Türkçe",
+      "de": "Almanca"
+    },
+    "theme": "Tema",
+    "themeOptions": {
+      "light": "Açık",
+      "dark": "Koyu",
+      "auto": "Otomatik"
+    }
+  },
+  "home": {
+    "heroTitle": "ChatBot'a Hoşgeldiniz",
+    "heroSubtitle": "Yapay zeka destekli chatbot ile sohbet etmeye başlayın",
+    "loginButton": "Giriş Yap",
+    "registerButton": "Kaydol"
+  }
+}

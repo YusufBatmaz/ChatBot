@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
  * Kullanıcı ile ilgili HTTP isteklerini karşılayan controller sınıfı.
  * Frontend'den gelen istekleri alır, UserService ile iletişim kurar ve cevap döner.
  */
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor

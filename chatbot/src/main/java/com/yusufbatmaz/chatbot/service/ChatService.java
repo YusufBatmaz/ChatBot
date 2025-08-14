@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,21 +38,22 @@ public class ChatService {
     // Logging için SLF4J logger kullanıyoruz
     private static final Logger logger = LoggerFactory.getLogger(ChatService.class);
     private final ChatHistoryRepository chatHistoryRepository;
+    private final LanguageDetectionService languageDetectionService;
+    private final UserProfileService userProfileService;
 
-<<<<<<< HEAD
-=======
-    // OpenRouter API anahtarı (güvenlik için kodda açık tutmak önerilmez)
-    private static final String OPENAI_API_KEY = "Kendi Api Keyinizi Giriniz / You can enter your own Api Key";
-
->>>>>>> 44a3d484d2a3b5cbb27f1865056cac2e6ac8b927
     // OpenRouter API'ye istek atmak için WebClient nesnesi
     private final WebClient webClient;
 
     /**
      * Constructor - WebClient'ı configuration ile oluşturuyoruz
      */
-    public ChatService(ChatHistoryRepository chatHistoryRepository, ApiConfig apiConfig) {
+    public ChatService(ChatHistoryRepository chatHistoryRepository, 
+                      LanguageDetectionService languageDetectionService,
+                      UserProfileService userProfileService,
+                      ApiConfig apiConfig) {
         this.chatHistoryRepository = chatHistoryRepository;
+        this.languageDetectionService = languageDetectionService;
+        this.userProfileService = userProfileService;
         
         // WebClient'ı configuration'dan gelen değerlerle oluşturuyoruz
         this.webClient = WebClient.builder()
@@ -79,13 +82,33 @@ public class ChatService {
             String userMessage = chatMessage.getMessage();
             logger.info("Chat isteği alındı - Kullanıcı: {}, Mesaj: {}", user.getEmail(), userMessage);
 
+            // Kullanıcı profil bilgilerini al
+            String userPreferredLanguage = userProfileService.getResponseLanguage(user.getId());
+            String detectedLanguage = languageDetectionService.detectLanguage(userMessage);
+            String responseLanguage = languageDetectionService.determineResponseLanguage(
+                userMessage, userPreferredLanguage, null);
+
+            // Dil seçimleri için debug logları
+            logger.debug("Language - preferred: {}, detected: {}, response: {}",
+                    userPreferredLanguage, detectedLanguage, responseLanguage);
+            
+            // Kullanıcının ana dilini güncelle (ilk kez tespit ediliyorsa)
+            if (userProfileService.getUserProfile(user.getId()).getNativeLanguage() == null) {
+                userProfileService.updateNativeLanguage(user.getId(), detectedLanguage);
+            }
+            
+            // ChatBot için sistem mesajı oluştur
+            String systemMessage = createSystemMessage(user.getId(), responseLanguage);
+            
             // OpenRouter API'ye gönderilecek istek gövdesi
+            String directiveUser = buildDirectiveUserMessage(responseLanguage);
             Map<String, Object> requestBody = Map.of(
                     "model", "deepseek/deepseek-chat-v3-0324:free",
                     "messages", List.of(
-                            Map.of(
-                                    "role", "user",
-                                    "content", userMessage)));
+                            Map.of("role", "system", "content", systemMessage),
+                            // Dil politikası için ek kullanıcı talimatı (uyumluluğu artırır)
+                            Map.of("role", "user", "content", directiveUser),
+                            Map.of("role", "user", "content", userMessage)));
 
             logger.info("OpenRouter API'ye istek gönderiliyor...");
             logger.debug("Request body: {}", requestBody);
@@ -218,6 +241,79 @@ public class ChatService {
             // Veritabanı kaydetme hatası
             logger.error("Chat geçmişi kaydedilirken hata oluştu", e);
             throw new DatabaseException("Chat geçmişi kaydedilirken hata oluştu", e);
+        }
+    }
+
+    /**
+     * ChatBot için sistem mesajı oluşturur
+     * @param userId Kullanıcı ID'si
+     * @param responseLanguage Yanıt dili
+     * @return Sistem mesajı
+     */
+    private String createSystemMessage(UUID userId, String responseLanguage) {
+        StringBuilder systemMessage = new StringBuilder();
+        
+        // Dil talimatı
+        systemMessage.append("You are a helpful AI assistant. ");
+        systemMessage.append("Always respond in ").append(languageDetectionService.getLanguageName(responseLanguage)).append(". ");
+        
+        // Kullanıcı profil bilgileri
+        String userProfile = userProfileService.getFormattedProfileForBot(userId);
+        if (!userProfile.isEmpty()) {
+            systemMessage.append("\n\nUser profile:\n").append(userProfile);
+        }
+        
+        // Kişilik ve özellikler
+        String personality = userProfileService.getPersonality(userId);
+        if (!"default".equals(personality)) {
+            systemMessage.append("\n\nPersonality: ").append(personality);
+        }
+        
+        Set<String> traits = userProfileService.getTraits(userId);
+        if (traits != null && !traits.isEmpty()) {
+            systemMessage.append("\n\nTraits: ").append(String.join(", ", traits));
+        }
+        
+        systemMessage.append("\n\nCRITICAL LANGUAGE POLICY:\n")
+                     .append("- Default and preferred response language: ")
+                     .append(languageDetectionService.getLanguageName(responseLanguage)).append(".\n")
+                     .append("- Always reply ONLY in this language.\n")
+                     .append("- If the user writes in another language, translate their intent and respond in the preferred language. Do NOT switch languages.\n")
+                     .append("- Exception: if the user EXPLICITLY requests a different language in the prompt (e.g., 'respond in German'), follow that for that message only, then revert to the preferred language.")
+                     .append("\n\n").append(getLocalizedDirective(responseLanguage));
+        
+        return systemMessage.toString();
+    }
+
+    /**
+     * Seçilen dilde katı yönergeyi döndürür
+     */
+    private String getLocalizedDirective(String code) {
+        String c = languageDetectionService.normalizeLanguageCode(code);
+        switch (c) {
+            case "tr":
+                return "Kritik Dil Politikası: Sadece Türkçe yanıt ver. Kullanıcı başka bir dilde yazsa bile Türkçe cevapla. Sadece kullanıcı açıkça başka bir dil isterse o mesaj için o dilde yanıt ver, ardından Türkçeye dön.";
+            case "de":
+                return "Kritische Sprachrichtlinie: Antworte ausschließlich auf Deutsch. Auch wenn der Nutzer in einer anderen Sprache schreibt, antworte auf Deutsch. Nur wenn ausdrücklich eine andere Sprache verlangt wird, antworte für diese Nachricht so und kehre dann zu Deutsch zurück.";
+            case "en":
+            default:
+                return "Critical Language Policy: Respond only in English. If the user writes in another language, answer in English. Only if they explicitly ask for a different language, comply for that message then revert to English.";
+        }
+    }
+
+    /**
+     * Kullanıcı rolünde kısa bir direktif mesajı üretir (hem İngilizce hem hedef dilde)
+     */
+    private String buildDirectiveUserMessage(String code) {
+        String c = languageDetectionService.normalizeLanguageCode(code);
+        switch (c) {
+            case "tr":
+                return "IMPORTANT: Only respond in Turkish. Sadece Türkçe yanıt ver.";
+            case "de":
+                return "IMPORTANT: Only respond in German. Antworte ausschließlich auf Deutsch.";
+            case "en":
+            default:
+                return "IMPORTANT: Only respond in English.";
         }
     }
 
